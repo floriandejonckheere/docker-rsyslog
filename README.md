@@ -24,7 +24,6 @@ $ ./build.sh
 
 ## Execution
 
-This creates a container using ALL overrides in `etc/`
 ```
 $ ./run.sh
 ```

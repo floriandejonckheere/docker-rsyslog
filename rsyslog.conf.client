@@ -10,14 +10,6 @@
 #### MODULES ####
 #################
 
-# provides UDP syslog reception
-$ModLoad imudp
-$UDPServerRun 1514
-
-# provides TCP syslog reception
-$ModLoad imtcp
-$InputTCPServerRun 1514
-
 ###########################
 #### GLOBAL DIRECTIVES ####
 ###########################
@@ -40,7 +32,7 @@ $FileCreateMode 0640
 $DirCreateMode 0755
 $Umask 0022
 $PrivDropToUser syslog
-$PrivDropToGroup adm
+$PrivDropToGroup syslog
 
 #
 # Where to place spool and state files
@@ -50,16 +42,6 @@ $WorkDirectory /var/spool/rsyslog
 #
 # Include all config files in /etc/rsyslog.d/
 #
-$IncludeConfig /etc/rsyslog.d/*.conf
+#$IncludeConfig /etc/rsyslog.d/*.conf
 
-###########################
-#### Central log stuff ####
-###########################
-template (name="HostLogs" type="string" string="/var/log/remote/%FROMHOST%/%programname%.%$YEAR%-%$MONTH%-%$DAY%.log")
-
-ruleset(name="remote"){
-	action(type="omfile" DynaFile="HostLogs")
-}
-
-input(type="imtcp" port="1514" ruleset="remote")
-input(type="imudp" port="1514" ruleset="remote")
+*.*     @@rsyslog.services.thalarion.be:1514
